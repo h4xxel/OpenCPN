@@ -3248,7 +3248,7 @@ S57Obj *cm93chart::CreateS57Obj ( int cell_index, int iobject, int subcell, Obje
 
             char val[4000];
             int *pi;
-            float *pf;
+            float *pf, f;
             unsigned short *pw;
             unsigned char *pb;
             int *pAVI;
@@ -3331,9 +3331,12 @@ S57Obj *cm93chart::CreateS57Obj ( int cell_index, int iobject, int subcell, Obje
                         break;
                   }
                   case 'R':
-                        pf = ( float * ) aval;
+                        //Fix for arm architecture that does not allow unaligned floating point access
+                        float f=*aval;
+                        //pf = ( float * ) aval;
                         pAVR = ( double * ) malloc ( sizeof ( double ) );   //new double;
-                        *pAVR = *pf;
+                        //*pAVR = *pf;
+                        *pAVR = f;
                         pattValTmp->valType = OGR_REAL;
                         pattValTmp->value   = pAVR;
                         break;
